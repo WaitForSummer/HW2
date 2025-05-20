@@ -1,0 +1,3 @@
+/home/wfs/Documents/BMSTU/AL/2sem/HW/HW2/cmake-build-debug/CMakeFiles/HW2.dir
+/home/wfs/Documents/BMSTU/AL/2sem/HW/HW2/cmake-build-debug/CMakeFiles/edit_cache.dir
+/home/wfs/Documents/BMSTU/AL/2sem/HW/HW2/cmake-build-debug/CMakeFiles/rebuild_cache.dir
