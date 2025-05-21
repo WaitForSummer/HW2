@@ -1,30 +1,26 @@
-//
-// Created by wfs on 5/21/25.
-//
-
 #ifndef FILE_H
 #define FILE_H
 
-#include <iostream>
 #include <string>
+#include <iostream>
 
 class File {
     std::string name;
     std::string extension;
-    size_t size;
     std::string content;
+
 public:
     File();
-    File(const std::string&, const std::string&, size_t, const std::string&);
+    File(const std::string&, const std::string&, const std::string&);
     ~File();
 
-    void rename(const std::string&);
+    std::string getFullName() const;
+    std::string getContent() const;
     void edit(const std::string&);
     void print() const;
-    std::string getFullName() const;
-    size_t getSize() const;
 
     friend std::ostream& operator<<(std::ostream&, const File&);
+    friend std::istream& operator>>(std::istream&, File&);
 };
 
-#endif //FILE_H
+#endif

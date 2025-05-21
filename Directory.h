@@ -1,32 +1,27 @@
-//
-// Created by wfs on 5/21/25.
-//
-
 #ifndef DIRECTORY_H
 #define DIRECTORY_H
 
 #include "File.h"
 #include <list>
+#include <string>
 
 class Directory {
     std::string name;
     std::list<File> files;
+
 public:
     Directory(const std::string&);
     ~Directory();
 
+    void addFile(const File&);
+    bool contains(const std::string&) const;
+    void printAll() const;
+    File* find(const std::string&);
+    void remove(const std::string&);
     void sortByName();
 
-    static bool compareNames(const File&, const File&);
-    void moveFile(const std::string&, Directory&, Directory&);
-    void addFile(const File&);
-    void removeFile(const std::string&);
-    void renameFile(const std::string&, const std::string&);
-    File* findFile(const std::string&);
-    void lsFiles() const;
-
-    Directory operator+(const Directory&) const;
     friend std::ostream& operator<<(std::ostream&, const Directory&);
+    friend std::istream& operator>>(std::istream&, Directory&);
 };
 
-#endif //DIRECTORY_H
+#endif

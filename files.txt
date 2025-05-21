@@ -1,4 +1,11 @@
-Директория: home
- Файл: test.txt
-Размер файла: 13
-Содержимое файла: Hello, World!
+home
+3
+lol txt
+6
+qwerty
+test txt
+4
+asdf
+zxc txt
+3
+ZOV

@@ -1,47 +1,39 @@
-//
-// Created by wfs on 5/21/25.
-//
-
 #include "File.h"
 
-File::File() {
-    this->name = "unnamed";
-    this->extension = "txt";
-    this->size = 0;
-    this->content = "";
-}
-File::File(const std::string &name, const std::string &ext, size_t size, const std::string &content) {
-    this->name = name;
-    this->extension = ext;
-    this->size = size;
-    this->content = content;
-}
-File::~File() {
-    name.clear();
-    content.clear();
-    extension.clear();
-    size = 0;
-}
+File::File() : name("unnamed"), extension("txt"), content("") {}
+File::File(const std::string& n, const std::string& e, const std::string& c)
+    : name(n), extension(e), content(c) {}
 
-void File::rename(const std::string &newName) {
-    this->name = newName;
-}
-void File::edit(const std::string &newContent) {
-    this->content = newContent;
-    this->size = newContent.size();
-}
-void File::print() const {
-    std::cout << *this << std::endl;
-}
+File::~File() {}
+
 std::string File::getFullName() const {
     return name + "." + extension;
 }
-size_t File::getSize() const {
-    return size;
+
+std::string File::getContent() const {
+    return content;
 }
 
-std::ostream &operator<<(std::ostream &os, const File &file) {
-    os << "Файл: " << file.name << '.' << file.extension << "\nРазмер файла: " << file.size << "\nСодержимое файла: "
-    << file.content;
+void File::edit(const std::string& newContent) {
+    content = newContent;
+}
+
+void File::print() const {
+    std::cout << *this << std::endl;
+}
+
+std::ostream& operator<<(std::ostream& os, const File& file) {
+    os << file.name << "." << file.extension << "\n"
+       << file.content.length() << "\n"
+       << file.content << "\n";
     return os;
+}
+
+std::istream& operator>>(std::istream& is, File& file) {
+    is >> file.name >> file.extension;
+    size_t size;
+    is >> size;
+    is.ignore();
+    std::getline(is, file.content);
+    return is;
 }

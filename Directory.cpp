@@ -1,87 +1,64 @@
-//
-// Created by wfs on 5/21/25.
-//
-
 #include "Directory.h"
+#include <algorithm>
+#include <iostream>
 
-Directory::Directory(const std::string &name): name(name) {}
-Directory::~Directory() {
-    name.clear();
-    files.clear();
+Directory::Directory(const std::string& n) : name(n) {}
+Directory::~Directory() {}
+
+void Directory::addFile(const File& f) {
+    if (contains(f.getFullName()))
+        throw std::runtime_error("Файл уже существует!");
+    files.push_back(f);
 }
 
-bool Directory::compareNames(const File &a, const File &b) {
-    return a.getFullName() < b.getFullName();
+bool Directory::contains(const std::string& fullName) const {
+    for (const auto& f : files)
+        if (f.getFullName() == fullName) return true;
+    return false;
 }
-void Directory::sortByName() {
-    files.sort(compareNames);
+
+void Directory::printAll() const {
+    std::cout << "Директория: " << name << "\n";
+    for (const auto& f : files)
+        f.print();
 }
-void Directory::addFile(const File &file) {
-    for (const auto &entry : files) {
-        if (entry.getFullName() == file.getFullName()) {
-            throw std::runtime_error("Ошибка: файл \"" + file.getFullName() + "\" уже существует в каталоге.");
-        }
-    }
-    files.push_back(file);
-}
-void Directory::removeFile(const std::string &fullName) {
-    for (auto it = files.begin(); it != files.end(); ++it) {
-        if (it->getFullName() == fullName) {
-            files.erase(it);
-            std::cout << "Файл \"" << fullName << "\" удалён.\n";
-            return;
-        }
-    }
-    std::cerr << "Файл \"" << fullName << "\" не найден.\n";
-}
-void Directory::renameFile(const std::string &oldName, const std::string &newName) {
-    for (File& file : files) {
-        if (file.getFullName() == oldName) {
-            file.rename(newName);
-            return;
-        }
-    }
-}
-File *Directory::findFile(const std::string &name) {
-    for (File& file : files) {
-        if (file.getFullName() == name) {
-            return &file;
-        }
-    }
+
+File* Directory::find(const std::string& fullName) {
+    for (auto& f : files)
+        if (f.getFullName() == fullName)
+            return &f;
     return nullptr;
 }
-void Directory::lsFiles() const {
-    for (const auto &file : files) {
-        std::cout << file.getFullName() << std::endl;
-    }
-}
-void Directory::moveFile(const std::string &name, Directory &start, Directory &destinition) {
-    File* filePtr = start.findFile(name);
-    if (!filePtr) {
-        std::cerr << "Файл не найден." << std::endl;
-        return;
-    }
 
-    if (destinition.findFile(name)) {
-        std::cerr << "В целевом катологе есть уже файл с таким именем." << std::endl;
-        return;
-    }
-
-    destinition.addFile(*filePtr);
-    start.removeFile(name);
-    std::cout << "Файл успешно перемещен." << std::endl;
+void Directory::remove(const std::string& fullName) {
+    files.remove_if([&](const File& f) {
+        return f.getFullName() == fullName;
+    });
 }
 
-Directory Directory::operator+(const Directory &other) const {
-    Directory res(this->name + "_" + other.name);
-    res.files = this->files;
-    res.files.insert(res.files.end(), other.files.begin(), other.files.end());
-    return res;
+void Directory::sortByName() {
+    files.sort([](const File& a, const File& b) {
+        return a.getFullName() < b.getFullName();
+    });
 }
-std::ostream &operator<<(std::ostream &os, const Directory &dir) {
-    os << "Директория: " << dir.name << std::endl;
-    for (const auto &file : dir.files) {
-        os << " " << file << std::endl;
-    }
+
+std::ostream& operator<<(std::ostream& os, const Directory& dir) {
+    os << dir.name << "\n" << dir.files.size() << "\n";
+    for (const auto& f : dir.files)
+        os << f;
     return os;
+}
+
+std::istream& operator>>(std::istream& is, Directory& dir) {
+    dir.files.clear();
+    std::getline(is, dir.name);
+    size_t count;
+    is >> count;
+    is.ignore();
+    for (size_t i = 0; i < count; ++i) {
+        File f;
+        is >> f;
+        dir.files.push_back(f);
+    }
+    return is;
 }
