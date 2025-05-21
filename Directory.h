@@ -15,6 +15,9 @@ public:
     Directory(const std::string&);
     ~Directory();
 
+    void sortByName();
+
+    static bool compareNames(const File&, const File&);
     void moveFile(const std::string&, Directory&, Directory&);
     void addFile(const File&);
     void removeFile(const std::string&);

@@ -1,0 +1,11 @@
+{
+"rules": [
+{
+"primary-output": "CMakeFiles/HW2.dir/Directory.cpp.o",
+"requires": [
+]
+}
+],
+"version": 0,
+"revision": 0
+}

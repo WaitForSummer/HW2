@@ -21,7 +21,7 @@ public:
     void rename(const std::string&);
     void edit(const std::string&);
     void print() const;
-    std::string getName() const;
+    std::string getFullName() const;
     size_t getSize() const;
 
     friend std::ostream& operator<<(std::ostream&, const File&);

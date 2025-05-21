@@ -1,0 +1,7 @@
+ninja_dyndep_version = 1.0
+build CMakeFiles/HW2.dir/main.cpp.o: dyndep
+
+build CMakeFiles/HW2.dir/File.cpp.o: dyndep
+
+build CMakeFiles/HW2.dir/Directory.cpp.o: dyndep
+

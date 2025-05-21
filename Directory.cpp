@@ -10,27 +10,33 @@ Directory::~Directory() {
     files.clear();
 }
 
-
+bool Directory::compareNames(const File &a, const File &b) {
+    return a.getFullName() < b.getFullName();
+}
+void Directory::sortByName() {
+    files.sort(compareNames);
+}
 void Directory::addFile(const File &file) {
     for (const auto &entry : files) {
-        if (entry.getName() == file.getName()) {
-            std::cerr << "Ошибка: файл с таким именем уже существует.";
-            return;
+        if (entry.getFullName() == file.getFullName()) {
+            throw std::runtime_error("Ошибка: файл \"" + file.getFullName() + "\" уже существует в каталоге.");
         }
     }
     files.push_back(file);
 }
-void Directory::removeFile(const std::string &) {
-    for (auto item = files.begin(); item != files.end(); item++) {
-        if (item->getName() == name) {
-            files.erase(item);
-            break;
+void Directory::removeFile(const std::string &fullName) {
+    for (auto it = files.begin(); it != files.end(); ++it) {
+        if (it->getFullName() == fullName) {
+            files.erase(it);
+            std::cout << "Файл \"" << fullName << "\" удалён.\n";
+            return;
         }
     }
+    std::cerr << "Файл \"" << fullName << "\" не найден.\n";
 }
 void Directory::renameFile(const std::string &oldName, const std::string &newName) {
     for (File& file : files) {
-        if (file.getName() == oldName) {
+        if (file.getFullName() == oldName) {
             file.rename(newName);
             return;
         }
@@ -38,7 +44,7 @@ void Directory::renameFile(const std::string &oldName, const std::string &newNam
 }
 File *Directory::findFile(const std::string &name) {
     for (File& file : files) {
-        if (file.getName() == name) {
+        if (file.getFullName() == name) {
             return &file;
         }
     }
@@ -46,7 +52,7 @@ File *Directory::findFile(const std::string &name) {
 }
 void Directory::lsFiles() const {
     for (const auto &file : files) {
-        std::cout << file.getName() << std::endl;
+        std::cout << file.getFullName() << std::endl;
     }
 }
 void Directory::moveFile(const std::string &name, Directory &start, Directory &destinition) {

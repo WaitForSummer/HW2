@@ -33,8 +33,8 @@ void File::edit(const std::string &newContent) {
 void File::print() const {
     std::cout << *this << std::endl;
 }
-std::string File::getName() const {
-    return name + '.' + extension;
+std::string File::getFullName() const {
+    return name + "." + extension;
 }
 size_t File::getSize() const {
     return size;
