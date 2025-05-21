@@ -3,4 +3,8 @@ project(HW2)
 
 set(CMAKE_CXX_STANDARD 26)
 
-add_executable(HW2 main.cpp)
+add_executable(HW2 main.cpp
+        File.cpp
+        File.h
+        Directory.cpp
+        Directory.h)
