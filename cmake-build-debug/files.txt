@@ -1,0 +1,5 @@
+Директория: home
+1
+test.txt
+6
+qwerty
